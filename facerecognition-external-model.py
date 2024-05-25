@@ -134,7 +134,8 @@ def require_appkey(view_function):
         if 'API_KEY' in os.environ:
             key = os.environ.get('API_KEY')
         else:
-            with open('api.key', 'r') as apikey:
+            __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+            with open(os.path.join(__location__, 'api.key'), 'r') as apikey:
                 key = apikey.read().replace('\n', '')
         if request.headers.get('x-api-key') and request.headers.get('x-api-key') == key:
             return view_function(*args, **kwargs)
