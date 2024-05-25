@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04 AS builder
+FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04 AS builder
 
 COPY Makefile /app/
 
@@ -7,7 +7,7 @@ RUN apt update -yq \
     && pip wheel -w /app/ dlib \
     && make -C /app/ download-models
 
-FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
+FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04
 
 COPY --from=builder /app/dlib*.whl /tmp/
 COPY --from=builder /app/vendor/ /app/vendor/
